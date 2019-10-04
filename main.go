@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"errors"
-	"flag"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -134,9 +133,13 @@ func EncodeImageToJpg(img *image.Image) (*bytes.Buffer, error) {
 
 // server for local testing
 func main() {
-	port := flag.Int("p", 8080, "server port")
+	port := 8080
+	if p := os.Getenv("PORT"); p != "" {
+		port, _ = strconv.Atoi(p)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ResizeImage", ResizeImage)
-	fmt.Printf("Starting local server on port: %d\n", *port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), mux))
+	fmt.Printf("Starting local server on port: %d\n", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), mux))
 }
