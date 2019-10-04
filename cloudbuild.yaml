@@ -13,6 +13,6 @@ steps:
 
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['beta', 'run', 'deploy', 'legacy-test', '--image', 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated', '--update-env-vars',  'BASE_URL=https://storage.cloud.google.com/soul-soldiers-images']
+  args: ['beta', 'run', 'deploy', '$REPO_NAME', '--image', 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated', '--update-env-vars',  'BASE_URL=https://storage.cloud.google.com/soul-soldiers-images']
 images:
        - 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID'
