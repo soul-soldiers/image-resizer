@@ -1,18 +1,21 @@
 steps:
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '--rm=false' , '-t', 'eu.gcr.io/$PROJECT_ID/image-resizer', '.' ]
+  args: [ 'build', '--rm=false' , '-t', 'eu.gcr.io/$PROJECT_ID/${_NAME}', '.' ]
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID', 'eu.gcr.io/$PROJECT_ID/legacy:latest']
+  args: ['tag', 'eu.gcr.io/$PROJECT_ID/${_NAME}:$BUILD_ID', 'eu.gcr.io/$PROJECT_ID/legacy:latest']
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/legacy']
+  args: ['push', 'eu.gcr.io/$PROJECT_ID/${_NAME}']
 
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['beta', 'run', 'deploy', '$REPO_NAME', '--image', 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated', '--update-env-vars',  'BASE_URL=https://storage.cloud.google.com/soul-soldiers-images']
+  args: ['beta', 'run', 'deploy', '${_NAME}', '--image', 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated', '--update-env-vars',  'BASE_URL=https://storage.cloud.google.com/soul-soldiers-images']
 images:
        - 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID'
+
+substitutions:
+    _NAME: image-resizer
