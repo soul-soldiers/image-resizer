@@ -1,6 +1,8 @@
 
 FROM golang:alpine AS builder
 RUN apk update && apk add --no-cache git
+
+WORKDIR /go/src/github.com/soul-soldiers/image-resizer
 COPY . .
 
 RUN go get -d -v
