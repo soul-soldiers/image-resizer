@@ -42,6 +42,7 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	// set Content-Type and Content-Length headers
 	w.Header().Set("Content-Type", "image/jpeg")
 	w.Header().Set("Content-Length", strconv.Itoa(encoded.Len()))
+	w.Header().Set("Cache-Control", "max-age=2592000")
 
 	// write the output image to http response body
 	_, err = io.Copy(w, encoded)
@@ -143,6 +144,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ResizeImage", ResizeImage)
 	mux.HandleFunc("/resize", ResizeImage)
+	mux.HandleFunc("/", ResizeImage)
 	fmt.Printf("Starting local server on port: %d\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), mux))
 }
