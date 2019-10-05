@@ -11,7 +11,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['beta', 'run', 'deploy', '${_NAME}', '--image', 'eu.gcr.io/$PROJECT_ID/${_NAME}', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated', '--update-env-vars',  'BASE_URL=https://storage.cloud.google.com/soul-soldiers-images']
 images:
-       - 'eu.gcr.io/$PROJECT_ID/legacy:$BUILD_ID'
+       - 'eu.gcr.io/$PROJECT_ID/${_NAME}'
 
 substitutions:
     _NAME: image-resizer
