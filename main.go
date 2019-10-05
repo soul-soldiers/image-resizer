@@ -142,6 +142,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ResizeImage", ResizeImage)
+	mux.HandleFunc("/resize", ResizeImage)
 	fmt.Printf("Starting local server on port: %d\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), mux))
 }
