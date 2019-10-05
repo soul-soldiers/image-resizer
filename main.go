@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"image"
@@ -99,6 +100,7 @@ func FetchAndResizeImage(p *ResizerParams) (*image.Image, error) {
 	var dst image.Image
 
 	// fetch input data
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	response, err := http.Get(p.url)
 	if err != nil {
 		return &dst, err
